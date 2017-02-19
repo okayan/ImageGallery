@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "gallery.image.oonuma.miyuki.jp.imagegallery"
+        applicationId "jp.miyuki.oonuma.imagegallery"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
