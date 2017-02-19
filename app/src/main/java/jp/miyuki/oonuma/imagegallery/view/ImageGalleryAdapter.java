@@ -29,19 +29,17 @@ import jp.miyuki.oonuma.imagegallery.domain.model.FlickrItem;
 /**
  *
  */
-public class ImageGalleryAdapter extends android.support.v7.widget.RecyclerView.Adapter<ImageGalleryAdapter.ViewHolder> {
+public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapter.ViewHolder> {
 
     private List<FlickrItem> flickrItem;
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public CardView cardGridLayout;
         public TextView textView;
         public ImageView imageView;
 
         public ViewHolder(View v) {
             super(v);
-            cardGridLayout = (CardView) v.findViewById(R.id.cardGridLayout);
             textView = (TextView)v.findViewById(R.id.txt);
             imageView = (ImageView)v.findViewById(R.id.img);
         }
@@ -119,6 +117,9 @@ public class ImageGalleryAdapter extends android.support.v7.widget.RecyclerView.
 
     @Override
     public int getItemCount() {
+        if (flickrItem != null) {
+            return flickrItem.size();
+        }
         return 0;
     }
 }
