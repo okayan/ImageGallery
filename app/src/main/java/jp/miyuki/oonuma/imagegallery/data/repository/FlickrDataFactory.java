@@ -121,9 +121,8 @@ public class FlickrDataFactory {
 
         try {
             JSONObject rootObject = new JSONObject(media);
-            JSONArray itemsArray = rootObject.getJSONArray("media");
 
-            return itemsArray.getJSONObject(0).getString("m");
+            return rootObject.getString("m");
 
         } catch (JSONException e) {
             e.printStackTrace();

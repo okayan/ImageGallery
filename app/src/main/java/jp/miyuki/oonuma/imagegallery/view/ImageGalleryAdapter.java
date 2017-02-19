@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,6 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -33,14 +33,15 @@ public class ImageGalleryAdapter extends android.support.v7.widget.RecyclerView.
 
     private List<FlickrItem> flickrItem;
 
-    private Context context;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
+        public CardView cardGridLayout;
         public TextView textView;
         public ImageView imageView;
+
         public ViewHolder(View v) {
             super(v);
+            cardGridLayout = (CardView) v.findViewById(R.id.cardGridLayout);
             textView = (TextView)v.findViewById(R.id.txt);
             imageView = (ImageView)v.findViewById(R.id.img);
         }
@@ -52,7 +53,6 @@ public class ImageGalleryAdapter extends android.support.v7.widget.RecyclerView.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        context = parent.getContext();
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.grid_flickr, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
