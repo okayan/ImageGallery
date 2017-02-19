@@ -6,4 +6,9 @@ import jp.miyuki.oonuma.imagegallery.domain.repository.FrickrRepository;
  *
  */
 public class FrickrRepositoryImpl implements FrickrRepository {
+
+    @Override
+    public void fetchFrickr() {
+
+    }
 }
