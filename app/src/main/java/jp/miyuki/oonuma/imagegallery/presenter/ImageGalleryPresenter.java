@@ -64,11 +64,7 @@ public class ImageGalleryPresenter implements MainContract.Presenter {
                                 onError();
                                 return;
                             }
-                            
-                            try{
-                                view.setAdapter(flickrs);
-                            } catch (Exception e) {
-                            }
+                            view.setAdapter(flickrs);
                         }
                     });
                 }
