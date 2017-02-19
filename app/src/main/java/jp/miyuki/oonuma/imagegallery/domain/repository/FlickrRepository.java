@@ -13,7 +13,7 @@ public interface FlickrRepository {
 
         void onError(ErrorBundle errorBundle);
 
-        void onflickrDataLoaded(ArrayList<FlickrItem> flickrs);
+        void onFlickrDataLoaded(ArrayList<FlickrItem> flickrs);
     }
 
 }

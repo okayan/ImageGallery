@@ -53,7 +53,7 @@ public class ImageGalleryPresenter implements MainContract.Presenter {
             }
 
             @Override
-            public void onflickrDataLoaded(final ArrayList<FlickrItem> flickrs) {
+            public void onFlickrDataLoaded(final ArrayList<FlickrItem> flickrs) {
                 new Thread(new Runnable(){
                     @Override
                     public void run() {

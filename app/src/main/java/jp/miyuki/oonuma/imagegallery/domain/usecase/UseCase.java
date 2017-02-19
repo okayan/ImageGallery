@@ -26,7 +26,7 @@ public abstract class UseCase {
 //            }
 //
 //            @Override
-//            public void onflickrDataLoaded(ArrayList<FlickrItem> flickrs) {
+//            public void onFlickrDataLoaded(ArrayList<FlickrItem> flickrs) {
 //            }
 //        });
 //    }

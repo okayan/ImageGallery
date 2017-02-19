@@ -16,6 +16,7 @@ public class FlickrItem implements Parcelable{
     private String author;
     private String authorId;
     private String tags;
+    private String pictureUrl;
 
     /**
      *
@@ -146,6 +147,13 @@ public class FlickrItem implements Parcelable{
         this.tags = tags;
     }
 
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
+    }
 
     @Override
     public int describeContents() {
@@ -162,6 +170,7 @@ public class FlickrItem implements Parcelable{
         dest.writeString(this.author);
         dest.writeString(this.authorId);
         dest.writeString(this.tags);
+        dest.writeString(this.pictureUrl);
     }
 
     public FlickrItem() {
@@ -178,13 +187,4 @@ public class FlickrItem implements Parcelable{
         this.tags = in.readString();
     }
 
-    public static final Parcelable.Creator<FlickrItem> CREATOR = new Parcelable.Creator<FlickrItem>() {
-        public FlickrItem createFromParcel(Parcel source) {
-            return new FlickrItem(source);
-        }
-
-        public FlickrItem[] newArray(int size) {
-            return new FlickrItem[size];
-        }
-    };
 }

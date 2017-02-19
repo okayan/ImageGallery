@@ -1,8 +1,5 @@
 package jp.miyuki.oonuma.imagegallery.data.repository;
 
-import android.content.Context;
-import android.content.Intent;
-
 import java.util.ArrayList;
 
 import jp.miyuki.oonuma.imagegallery.domain.model.FlickrItem;
@@ -22,6 +19,6 @@ public class FlickrRepositoryImpl implements FlickrRepository {
     @Override
     public void fetchflickr(final FlickrCallback flickrCallback) {
         final ArrayList<FlickrItem> flickrItemList = this.flickrDataFactory.fetchItems();
-        flickrCallback.onflickrDataLoaded(flickrItemList);
+        flickrCallback.onFlickrDataLoaded(flickrItemList);
     }
 }

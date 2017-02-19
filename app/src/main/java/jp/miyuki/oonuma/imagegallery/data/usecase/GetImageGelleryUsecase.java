@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import jp.miyuki.oonuma.imagegallery.domain.repository.FlickrRepository;
 import jp.miyuki.oonuma.imagegallery.domain.usecase.UseCase;
+import jp.miyuki.oonuma.imagegallery.presenter.ImageGalleryPresenter;
 
 public class GetImageGelleryUsecase extends UseCase{
     private final FlickrRepository frickerRepository;
@@ -14,7 +15,7 @@ public class GetImageGelleryUsecase extends UseCase{
         @Override
         protected Void doInBackground(Object... params) {
 
-            frickerRepository.fetchflickr((FlickrRepository.FlickrCallback) params[0]);
+            frickerRepository.fetchflickr(((FlickrRepository.FlickrCallback)params[0]));
             return null;
         }
     };

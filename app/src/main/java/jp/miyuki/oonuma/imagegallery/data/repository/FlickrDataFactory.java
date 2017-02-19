@@ -26,9 +26,10 @@ import jp.miyuki.oonuma.imagegallery.domain.model.FlickrItem;
  *
  */
 public class FlickrDataFactory {
+
     public static final String TAG = "FlickrDataFactory";
 
-    private static final String ENDPOINT = "https://api.flickr.com/services/feeds/photos_public.gne?format=json";
+    private static final String ENDPOINT = "https://api.flickr.com/services/feeds/photos_public.gne?lang=en-us&format=json";
 
 
     public String loadJSON() {
@@ -58,6 +59,9 @@ public class FlickrDataFactory {
         String line;
         try {
             while ((line = reader.readLine()) != null) {
+                if (line.startsWith("jsonFlickrFeed(")) {
+                    line = line.replace("jsonFlickrFeed(", "");
+                }
                 sb.append(line).append('\n');
             }
         } catch (IOException e) {
@@ -78,17 +82,31 @@ public class FlickrDataFactory {
         try {
             String json = loadJSON();
             Log.i(TAG, "Received xml: " + json);
-            JSONArray eventArray = rootObject.getJSONArray("{jsonFlickrFeed}");
-            for (int i = 0; i < eventArray.length(); i++) {
-                JSONObject jsonObject = eventArray.getJSONObject(i);
+            JSONObject rootObject = new JSONObject(json);
+            JSONArray itemsArray = rootObject.getJSONArray("items");
+            for (int i = 0; i < itemsArray.length(); i++) {
+                JSONObject jsonObject = itemsArray.getJSONObject(i);
                 Log.d("JSONSampleActivity", jsonObject.getString("title"));
                 String title = jsonObject.getString("title");
                 String link = jsonObject.getString("link");
+                String dateTaken = jsonObject.getString("date_taken");
+                String description = jsonObject.getString("description");
+                String published = jsonObject.getString("published");
+                String author = jsonObject.getString("author");
+                String authorId = jsonObject.getString("author_id");
+                String tags = jsonObject.getString("tags");
+                String pictureUrl = getPictureUrlString(jsonObject.getString("media"));
 
                 FlickrItem item = new FlickrItem();
                 item.setTitle(title);
                 item.setLink(link);
-
+                item.setDateTaken(dateTaken);
+                item.setDescription(description);
+                item.setPublished(published);
+                item.setAuthor(author);
+                item.setAuthorId(authorId);
+                item.setTags(tags);
+                item.setPictureUrl(pictureUrl);
 
                 items.add(item);
             }
@@ -98,25 +116,19 @@ public class FlickrDataFactory {
         return items;
     }
 
-    void parseItems(ArrayList<FlickrItem> items, XmlPullParser parser)
-            throws XmlPullParserException, IOException {
+    private String getPictureUrlString(String media) {
+        //"media": {"m":"https:\/\/farm1.staticflickr.com\/490\/32147085394_0fd1887e27_m.jpg"},
 
-        int eventType = parser.next();
-        while (eventType != XmlPullParser.END_DOCUMENT) {
-//            if (eventType == XmlPullParser.START_TAG &&
-//                    XML_PHOTO.equals(parser.getName())) {
-//                String id = parser.getAttributeValue(null, "id");
-//                String caption = parser.getAttributeValue(null, "title");
-//                String smallUrl = parser.getAttributeValue(null, EXTRA_SMALL_URL);
-//                String owner = parser.getAttributeValue(null, "owner");
-//
-//                FlickrItem item = new FlickrItem();
-////                item.setTitle(id);
-//                items.add(item);
-//
-//            }
-            eventType = parser.next();
+        try {
+            JSONObject rootObject = new JSONObject(media);
+            JSONArray itemsArray = rootObject.getJSONArray("media");
+
+            return itemsArray.getJSONObject(0).getString("m");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
     public ArrayList<FlickrItem> fetchItems() {

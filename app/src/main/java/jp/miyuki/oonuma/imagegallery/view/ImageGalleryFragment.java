@@ -91,6 +91,7 @@ public class ImageGalleryFragment extends Fragment implements MainContract.View{
     public void setAdapter(List<FlickrItem> flickrItems) {
         Toast.makeText(getContext(), "success", Toast.LENGTH_LONG).show();
         adapter.setflickrs(flickrItems);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
