@@ -6,22 +6,21 @@ import android.support.annotation.NonNull;
 
 import jp.miyuki.oonuma.imagegallery.domain.repository.FlickrRepository;
 import jp.miyuki.oonuma.imagegallery.domain.usecase.UseCase;
-import jp.miyuki.oonuma.imagegallery.presenter.ImageGalleryPresenter;
 
 public class GetImageGelleryUsecase extends UseCase{
-    private final FlickrRepository frickerRepository;
+    private final FlickrRepository flickerRepository;
 
     private AsyncTask asyncTask = new AsyncTask<Object, Object, Void>() {
         @Override
         protected Void doInBackground(Object... params) {
 
-            frickerRepository.fetchflickr(((FlickrRepository.FlickrCallback)params[0]));
+            flickerRepository.fetchflickr(((FlickrRepository.FlickrCallback)params[0]));
             return null;
         }
     };
 
     public GetImageGelleryUsecase(@NonNull FlickrRepository repository) {
-        frickerRepository = repository;
+        flickerRepository = repository;
     }
 
     @Override

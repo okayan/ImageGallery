@@ -11,7 +11,7 @@ public interface FlickrRepository {
 
     interface FlickrCallback {
 
-        void onError(ErrorBundle errorBundle);
+        void onError(/*ErrorBundle errorBundle*/);
 
         void onFlickrDataLoaded(ArrayList<FlickrItem> flickrs);
     }

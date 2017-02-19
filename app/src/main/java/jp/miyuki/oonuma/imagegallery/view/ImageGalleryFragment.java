@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -30,6 +31,8 @@ public class ImageGalleryFragment extends Fragment implements MainContract.View{
 
     @Inject
     MainContract.Presenter presenter;
+
+    private TextView emptyView;
 
     public ImageGalleryFragment() {
         // Required empty public constructor
@@ -58,6 +61,7 @@ public class ImageGalleryFragment extends Fragment implements MainContract.View{
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ImageGalleryAdapter();
         recyclerView.setAdapter(adapter);
+        emptyView = (TextView) v.findViewById(R.id.empty);
     }
 
     @Override
@@ -89,6 +93,7 @@ public class ImageGalleryFragment extends Fragment implements MainContract.View{
 
     @Override
     public void setAdapter(List<FlickrItem> flickrItems) {
+        emptyView.setVisibility(View.GONE);
         Toast.makeText(getContext(), "success", Toast.LENGTH_LONG).show();
         adapter.setflickrs(flickrItems);
         adapter.notifyDataSetChanged();
@@ -97,5 +102,6 @@ public class ImageGalleryFragment extends Fragment implements MainContract.View{
     @Override
     public void showEmpty() {
         Toast.makeText(getContext(), "empty", Toast.LENGTH_LONG).show();
+        emptyView.setVisibility(View.VISIBLE);
     }
 }

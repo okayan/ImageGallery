@@ -7,6 +7,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
@@ -77,10 +78,14 @@ public class FlickrDataFactory {
     }
 
 
+    @Nullable
     public ArrayList<FlickrItem> downloadGalleryItems(String url) {
         ArrayList<FlickrItem> items = new ArrayList<>();
         try {
             String json = loadJSON();
+            if (json == null) {
+                return null;
+            }
             Log.i(TAG, "Received xml: " + json);
             JSONObject rootObject = new JSONObject(json);
             JSONArray itemsArray = rootObject.getJSONArray("items");
@@ -130,6 +135,7 @@ public class FlickrDataFactory {
         return null;
     }
 
+    @Nullable
     public ArrayList<FlickrItem> fetchItems() {
 
         String url = Uri.parse(ENDPOINT).buildUpon()

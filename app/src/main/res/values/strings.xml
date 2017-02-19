@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ImageGallery</string>
+    <string name="empty_message">Oops!</string>
 </resources>

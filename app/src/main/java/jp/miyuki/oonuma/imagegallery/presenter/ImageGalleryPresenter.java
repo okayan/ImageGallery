@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import jp.miyuki.oonuma.imagegallery.data.exception.NetworkConnectionException;
+import jp.miyuki.oonuma.imagegallery.data.exception.RepositoryErrorBundleImpl;
 import jp.miyuki.oonuma.imagegallery.domain.exception.ErrorBundle;
 import jp.miyuki.oonuma.imagegallery.domain.model.FlickrItem;
 import jp.miyuki.oonuma.imagegallery.domain.repository.FlickrRepository;
@@ -42,32 +44,42 @@ public class ImageGalleryPresenter implements MainContract.Presenter {
         fetch();
     }
 
+
+    private class CallBack implements FlickrRepository.FlickrCallback {
+
+        @Override
+        public void onError(/*ErrorBundle errorBundle*/) {
+            view.showEmpty();
+        }
+
+        @Override
+        public void onFlickrDataLoaded(final ArrayList<FlickrItem> flickrs) {
+            new Thread(new Runnable(){
+                @Override
+                public void run() {
+                    handler.post(new Runnable() {
+                        public void run() {
+                            if (flickrs == null) {
+                                // TODO Exception
+                                onError();
+                                return;
+                            }
+                            
+                            try{
+                                view.setAdapter(flickrs);
+                            } catch (Exception e) {
+                            }
+                        }
+                    });
+                }
+            }).start();
+        }
+    }
+
     private final Handler handler = new Handler();
 
     @Override
     public void fetch() {
-        getImageGelleryUsecase.execute(view.getContext(), new FlickrRepository.FlickrCallback() {
-            @Override
-            public void onError(ErrorBundle errorBundle) {
-                view.showEmpty();
-            }
-
-            @Override
-            public void onFlickrDataLoaded(final ArrayList<FlickrItem> flickrs) {
-                new Thread(new Runnable(){
-                    @Override
-                    public void run() {
-                        handler.post(new Runnable() {
-                            public void run() {
-                                try{
-                                    view.setAdapter(flickrs);
-                                } catch (Exception e) {
-                                }
-                            }
-                        });
-                    }
-                }).start();
-            }
-        });
+        getImageGelleryUsecase.execute(view.getContext(), new CallBack());
     }
 }
