@@ -1,27 +1,32 @@
 package jp.miyuki.oonuma.imagegallery.view;
 
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import jp.miyuki.oonuma.imagegallery.R;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
+
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        addFragment();
-    }
+        if (savedInstanceState == null) {
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
 
-    private void addFragment() {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.content, new ImageGalleryFragment());
-        ft.commit();
+            transaction.add(R.id.container, new ImageGalleryFragment());
+
+            transaction.commit();
+        }
     }
 
     @Override

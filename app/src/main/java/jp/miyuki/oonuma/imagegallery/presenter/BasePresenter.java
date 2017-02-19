@@ -1,9 +1,9 @@
 package jp.miyuki.oonuma.imagegallery.presenter;
 
 /**
- * Interface representing a Presenter as model view presenter (MVP) pattern.
+ * Interface representing a BasePresenter as model view presenter (MVP) pattern.
  */
-public interface Presenter {
+public interface BasePresenter {
 
     /**
      * Control the lifecycle of the view as onResume().
