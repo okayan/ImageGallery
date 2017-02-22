@@ -6,12 +6,9 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import jp.miyuki.oonuma.imagegallery.data.exception.NetworkConnectionException;
-import jp.miyuki.oonuma.imagegallery.data.exception.RepositoryErrorBundleImpl;
-import jp.miyuki.oonuma.imagegallery.domain.exception.ErrorBundle;
 import jp.miyuki.oonuma.imagegallery.domain.model.FlickrItem;
 import jp.miyuki.oonuma.imagegallery.domain.repository.FlickrRepository;
-import jp.miyuki.oonuma.imagegallery.data.usecase.GetImageGelleryUsecase;
+import jp.miyuki.oonuma.imagegallery.data.usecase.GetImageGalleryUsecase;
 
 /**
  *
@@ -20,11 +17,11 @@ public class ImageGalleryPresenter implements MainContract.Presenter {
 
     private MainContract.View view;
 
-    private GetImageGelleryUsecase getImageGelleryUsecase;
+    private GetImageGalleryUsecase getImageGalleryUsecase;
 
     @Inject
-    public ImageGalleryPresenter(GetImageGelleryUsecase getImageGelleryUsecase) {
-        this.getImageGelleryUsecase = getImageGelleryUsecase;
+    public ImageGalleryPresenter(GetImageGalleryUsecase getImageGalleryUsecase) {
+        this.getImageGalleryUsecase = getImageGalleryUsecase;
     }
 
     @Override
@@ -76,6 +73,6 @@ public class ImageGalleryPresenter implements MainContract.Presenter {
 
     @Override
     public void fetch() {
-        getImageGelleryUsecase.execute(view.getContext(), new CallBack());
+        getImageGalleryUsecase.execute(view.getContext(), new CallBack());
     }
 }
