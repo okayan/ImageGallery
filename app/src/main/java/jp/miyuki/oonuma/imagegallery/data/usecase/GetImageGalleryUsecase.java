@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import jp.miyuki.oonuma.imagegallery.domain.repository.FlickrRepository;
 import jp.miyuki.oonuma.imagegallery.domain.usecase.UseCase;
 
-public class GetImageGelleryUsecase extends UseCase{
+public class GetImageGalleryUsecase extends UseCase{
     private final FlickrRepository flickerRepository;
 
     private AsyncTask asyncTask = new AsyncTask<Object, Object, Void>() {
@@ -19,7 +19,7 @@ public class GetImageGelleryUsecase extends UseCase{
         }
     };
 
-    public GetImageGelleryUsecase(@NonNull FlickrRepository repository) {
+    public GetImageGalleryUsecase(@NonNull FlickrRepository repository) {
         flickerRepository = repository;
     }
 
