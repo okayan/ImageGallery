@@ -2,7 +2,12 @@
 
 buildscript {
     ext {
-        supportLibraryVersion = '25.1.1'
+        supportLibraryVersion = '25.2.0'
+        junitVersion = '4.12'
+        mockitoVersion = '2.2.28'
+        assertjVersion = '3.4.1'
+        robolectricVersion = '3.1.4'
+        supportTestRunnerVersion = '0.5'
     }
     repositories {
         jcenter()
