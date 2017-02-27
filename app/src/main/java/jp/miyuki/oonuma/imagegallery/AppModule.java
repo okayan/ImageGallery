@@ -6,7 +6,7 @@ import dagger.Module;
 import dagger.Provides;
 import jp.miyuki.oonuma.imagegallery.data.repository.FlickrDataFactory;
 import jp.miyuki.oonuma.imagegallery.data.repository.FlickrRepositoryImpl;
-import jp.miyuki.oonuma.imagegallery.data.usecase.GetImageGalleryUsecase;
+import jp.miyuki.oonuma.imagegallery.data.usecase.GetImageGalleryUseCase;
 import jp.miyuki.oonuma.imagegallery.domain.repository.FlickrRepository;
 import jp.miyuki.oonuma.imagegallery.presenter.ImageGalleryPresenter;
 import jp.miyuki.oonuma.imagegallery.presenter.MainContract;
@@ -20,12 +20,12 @@ public class AppModule {
     }
 
     @Provides
-    public GetImageGalleryUsecase provideGetImageGalleryUsecase(FlickrRepository FlickrRepository) {
-        return new GetImageGalleryUsecase(FlickrRepository);
+    public GetImageGalleryUseCase provideGetImageGalleryUsecase(FlickrRepository FlickrRepository) {
+        return new GetImageGalleryUseCase(FlickrRepository);
     }
 
     @Provides
-    public MainContract.Presenter providePresenter(GetImageGalleryUsecase usecase) {
+    public MainContract.Presenter providePresenter(GetImageGalleryUseCase usecase) {
         return new ImageGalleryPresenter(usecase);
     }
 }

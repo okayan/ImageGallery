@@ -3,10 +3,7 @@ package jp.miyuki.oonuma.imagegallery.data.repository;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 
-import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -21,6 +18,8 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import jp.miyuki.oonuma.imagegallery.data.exception.FlickrFeedException;
+import jp.miyuki.oonuma.imagegallery.data.exception.NetworkConnectionException;
 import jp.miyuki.oonuma.imagegallery.domain.model.FlickrItem;
 
 /**
@@ -33,7 +32,7 @@ public class FlickrDataFactory {
     private static final String ENDPOINT = "https://api.flickr.com/services/feeds/photos_public.gne?lang=en-us&format=json";
 
 
-    public String loadJSON() {
+    public String loadJSON() throws NetworkConnectionException {
         String response = null;
         try {
             URL url = new URL(ENDPOINT);
@@ -43,10 +42,11 @@ public class FlickrDataFactory {
             response = convertStreamToString(in);
         } catch (MalformedURLException e) {
             Log.e(TAG, "MalformedURLException: " + e.getMessage());
+            throw new NetworkConnectionException(e.getMessage());
         } catch (ProtocolException e) {
             Log.e(TAG, "ProtocolException: " + e.getMessage());
-        } catch (IOException e) {
-            Log.e(TAG, "IOException: " + e.getMessage());
+            throw new NetworkConnectionException(e.getMessage());
+
         } catch (Exception e) {
             Log.e(TAG, "Exception: " + e.getMessage());
         }
@@ -79,7 +79,7 @@ public class FlickrDataFactory {
 
 
     @Nullable
-    public ArrayList<FlickrItem> downloadGalleryItems(String url) {
+    public ArrayList<FlickrItem> parseFlickrItems() throws FlickrFeedException, NetworkConnectionException {
         ArrayList<FlickrItem> items = new ArrayList<>();
         try {
             String json = loadJSON();
@@ -100,7 +100,7 @@ public class FlickrDataFactory {
                 String author = jsonObject.getString("author");
                 String authorId = jsonObject.getString("author_id");
                 String tags = jsonObject.getString("tags");
-                String pictureUrl = getPictureUrlString(jsonObject.getString("media"));
+                String pictureUrl = parsePictureUrlString(jsonObject.getString("media"));
 
                 FlickrItem item = new FlickrItem();
                 item.setTitle(title);
@@ -117,13 +117,15 @@ public class FlickrDataFactory {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            throw new FlickrFeedException(e.getMessage());
+        } catch (NetworkConnectionException e) {
+            e.printStackTrace();
+            throw new NetworkConnectionException(e.getMessage());
         }
         return items;
     }
 
-    private String getPictureUrlString(String media) {
-        //"media": {"m":"https:\/\/farm1.staticflickr.com\/490\/32147085394_0fd1887e27_m.jpg"},
-
+    private String parsePictureUrlString(String media) throws FlickrFeedException {
         try {
             JSONObject rootObject = new JSONObject(media);
 
@@ -131,16 +133,13 @@ public class FlickrDataFactory {
 
         } catch (JSONException e) {
             e.printStackTrace();
+            throw new FlickrFeedException("Picture url is not found.");
         }
-        return null;
     }
 
     @Nullable
-    public ArrayList<FlickrItem> fetchItems() {
-
-        String url = Uri.parse(ENDPOINT).buildUpon()
-                .build().toString();
-        return downloadGalleryItems(url);
+    public ArrayList<FlickrItem> fetchItems() throws FlickrFeedException, NetworkConnectionException {
+        return parseFlickrItems();
     }
 
     public ArrayList<FlickrItem> search(String query) {

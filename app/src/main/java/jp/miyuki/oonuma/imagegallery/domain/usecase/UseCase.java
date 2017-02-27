@@ -7,8 +7,8 @@ import jp.miyuki.oonuma.imagegallery.domain.repository.FlickrRepository;
 /**
  * Use case class
  */
-public abstract class UseCase {
+public interface UseCase {
 
-    protected abstract void execute(Context context, FlickrRepository.FlickrCallback flickrCallback);
+    void execute(Context context, FlickrRepository.FlickrCallback callback);
 
 }
