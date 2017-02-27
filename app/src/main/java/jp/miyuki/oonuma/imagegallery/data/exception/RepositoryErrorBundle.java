@@ -2,11 +2,11 @@ package jp.miyuki.oonuma.imagegallery.data.exception;
 
 import jp.miyuki.oonuma.imagegallery.domain.exception.ErrorBundle;
 
-public class RepositoryErrorBundleImpl implements ErrorBundle {
+public class RepositoryErrorBundle implements ErrorBundle {
 
-    private Exception exception;
+    private final Exception exception;
 
-    public RepositoryErrorBundleImpl(Exception exception) {
+    public RepositoryErrorBundle(Exception exception) {
         this.exception = exception;
     }
 
